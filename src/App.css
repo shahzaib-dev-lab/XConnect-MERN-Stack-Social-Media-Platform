@@ -1,0 +1,13 @@
+
+/* Scrollbar shift ko force-lock karne ke liye */
+html {
+  overflow-y: scroll; /* Scrollbar space pehle se lock rakhega */
+}
+
+body {
+  background-color: #000000;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+}
