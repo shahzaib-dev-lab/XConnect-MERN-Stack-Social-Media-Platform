@@ -5,8 +5,9 @@ const TweetSchema = new mongoose.Schema({
   username: { type: String, default: 'user' },
   text: { type: String, default: '' },
   image: { type: String, default: null },
+  avatar: { type: String, default: null },
   likes: { type: Number, default: 0 },
-  likedBy: { type: [String], default: [] }, // Array for storing user usernames
+  likedBy: { type: [String], default: [] }, 
   createdAt: { type: Date, default: Date.now }
 });
 
