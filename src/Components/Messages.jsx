@@ -637,7 +637,7 @@ const Message = ({ currentUser, currentUsername,}) => {
                 <BiTrash size={21} /> </button>
             </div>
             {/* MESSAGES*/}
-            <div className="flex-1 min-h-0 overflow-y-auto px-3 md:px-4 py-4 md:py-5">
+            <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar px-3 md:px-4 py-4 md:py-5">
               {loadingMessages ? (
                 <div className="flex justify-center items-center h-full text-gray-500">
                   Loading messages...
@@ -691,7 +691,7 @@ const Message = ({ currentUser, currentUsername,}) => {
             </div>
             {/* MESSAGE INPUT*/}
             <div
-              className=" border-t border-gray-800 px-3 md:px-4 py-3 flex-shrink-0 bg-black sticky bottom-0 z-20 md:pb-8pb-20" >
+              className=" border-t border-gray-800 px-3 md:px-4 py-3 flex-shrink-0 bg-black sticky  bottom-0 z-20 md:pb-8 pb-20" >
               <form onSubmit={handleSendMessage} className="max-w-4xl mx-auto flex items-center gap-2" >
               <input type="text" value={newMessage} onChange={(e) => setNewMessage( e.target.value)} placeholder="Start a new message" disabled={isSending} autoComplete="off" className="flex-1 min-w-0 bg-gray-900 border border-gray-700 focus:border-blue-500 rounded-full px-4 md:px-5 py-3 outline-none transition disabled:opacity-50 text-sm md:text-base"
               onKeyDown={(e) => {

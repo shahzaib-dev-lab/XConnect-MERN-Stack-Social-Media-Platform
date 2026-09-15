@@ -152,7 +152,7 @@ const Profile = ({ currentUser, onUserUpdate, onLike, onDelete, setCurrentView }
 
       {/* Feed Tab */}
       <div className="border-b border-[#2f3336]">
-        <div className="w-24 text-center py-3 font-bold border-b-4 border-[#1d9bf0]">
+        <div className="w-24  text-center py-3 font-bold border-b-4 border-[#1d9bf0]">
           Posts
         </div>
       </div>

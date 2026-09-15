@@ -304,7 +304,7 @@ const App = () => {
           <div className={`h-full border-x border-[#2f3336] ${
              currentView ==='messages' 
              || currentView === 'games' 
-             || currentView === 'profile' ? 'flex-1 overflow-hidden' : 'w-full sm:w-[600px] overflow-y-auto pb-16 md:pb-0'}`}>
+             || currentView === 'profile' ? 'flex-1 overflow-hidden' : 'w-full sm:w-[600px] overflow-y-auto no-scrollbar pb-16 md:pb-0'}`}>
 
             {/*HOME*/}
             {currentView === 'home' && (
