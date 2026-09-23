@@ -10,7 +10,7 @@ import Messages from './Components/Messages';
 import Profile from './Components/Profile';
 import AuthModal from './Components/AuthModal';
 import Games from './Components/Games';
-
+import { io } from "socket.io-client";
 const API_URL = "https://xconnect-mern-stack-social-media-platform-production.up.railway.app";
 const socket = io("https://xconnect-mern-stack-social-media-platform-production.up.railway.app")
 const App = () => {
