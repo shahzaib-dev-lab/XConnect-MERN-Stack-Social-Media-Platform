@@ -8,8 +8,6 @@ const mongoose = require('mongoose');
 const http = require('http');
 const { Server } = require('socket.io');
 
-require('dotenv').config();
-
 const app = express();
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
