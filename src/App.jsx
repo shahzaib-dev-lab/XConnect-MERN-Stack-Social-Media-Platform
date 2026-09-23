@@ -11,8 +11,8 @@ import Profile from './Components/Profile';
 import AuthModal from './Components/AuthModal';
 import Games from './Components/Games';
 
-const API_URL = 'http://localhost:5000/api/tweets';
-
+const API_URL = "https://xconnect-mern-stack-social-media-platform-production.up.railway.app";
+const socket = io("https://xconnect-mern-stack-social-media-platform-production.up.railway.app")
 const App = () => {
   // =====================================================
   // USER
@@ -36,10 +36,6 @@ const App = () => {
 
       if (savedUser) {
         const parsedUser = JSON.parse(savedUser);
-
-        console.log('Loaded user:', parsedUser);
-        console.log('Loaded avatar:', parsedUser?.avatar);
-
         setUser(parsedUser);
       }
     } catch (error) {
