@@ -52,7 +52,7 @@ const AuthModal = ({ onLoginSuccess }) => {
         <form onSubmit={handleSubmit} className="w-full space-y-4">
           {!isLogin && (
             <>
-              <input type="text" name="name" laceholder="Full Name" value={formData.name} onChange={handleChange} required className="w-full bg-[#16181c] border border-[#2f3336] text-white p-3 rounded-xl focus:outline-none focus:border-[#1d9bf0]" />
+              <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required className="w-full bg-[#16181c] border border-[#2f3336] text-white p-3 rounded-xl focus:outline-none focus:border-[#1d9bf0]" />
 
               <input type="text" name="username" placeholder="Username (e.g. shahzaib)" value={formData.username} onChange={handleChange} required className="w-full bg-[#16181c] border border-[#2f3336] text-white p-3 rounded-xl focus:outline-none focus:border-[#1d9bf0]" /> 
               </> )}
