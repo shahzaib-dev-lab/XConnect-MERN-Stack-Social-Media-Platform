@@ -12,7 +12,10 @@ import AuthModal from './Components/AuthModal';
 import Games from './Components/Games';
 import { io } from "socket.io-client";
 const API_URL = "https://xconnect-mern-stack-social-media-platform-production.up.railway.app";
-const socket = io("https://xconnect-mern-stack-social-media-platform-production.up.railway.app")
+const socket = io("https://xconnect-mern-stack-social-media-platform-production.up.railway.app", {
+  transports: ["websocket", "polling"],
+  withCredentials: true
+});
 const App = () => {
   // =====================================================
   // USER
@@ -50,7 +53,7 @@ const App = () => {
 
   const fetchTweets = async () => {
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get("https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/tweets");
 
       const currentUsername =
         user?.username ||
@@ -120,10 +123,7 @@ const App = () => {
     };
 
     try {
-      const response = await axios.post(
-        API_URL,
-        payload
-      );
+    const response = await axios.post("https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/tweets",payload);
 
       const newPost = {
         ...response.data,

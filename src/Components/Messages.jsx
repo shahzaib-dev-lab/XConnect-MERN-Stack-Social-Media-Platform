@@ -3,8 +3,8 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import {BiArrowBack, BiSend, BiTrash,BiUser} from 'react-icons/bi';
 
-const API_BASE_URL = 'http://localhost:5000/api/messages';
-const SOCKET_URL = 'http://localhost:5000';
+const API_BASE_URL = 'https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/messages';
+const SOCKET_URL = 'https://xconnect-mern-stack-social-media-platform-production.up.railway.app';
 // SOCKET
 // =====================================================
 const socket = io(SOCKET_URL, {

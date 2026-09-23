@@ -3,7 +3,7 @@ import axios from 'axios';
 import TweetCard from './TweetCard';
 import { BiX, BiArrowBack, BiCamera } from 'react-icons/bi';
 
-const API_URL = 'http://localhost:5000/api/tweets';
+const API_URL = 'https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/tweets';
 
 const Profile = ({ currentUser, onUserUpdate, onLike, onDelete, setCurrentView }) => {
   const [userTweets, setUserTweets] = useState([]);

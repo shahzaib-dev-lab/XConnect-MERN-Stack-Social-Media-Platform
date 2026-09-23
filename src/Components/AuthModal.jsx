@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { RiTwitterXLine } from 'react-icons/ri';
-const API_AUTH_URL = 'http://localhost:5000/api/auth';
+const API_AUTH_URL = 'https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/auth';
 const AuthModal = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({

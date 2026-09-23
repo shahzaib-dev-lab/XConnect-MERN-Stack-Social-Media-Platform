@@ -16,7 +16,8 @@ require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 app.use(
   cors({
     origin: '*',
-    credentials: false,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
@@ -29,8 +30,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST', 'DELETE'],
+    origin: 'https://xconnect-mern-stack-project.netlify.app',
+    methods: ['GET', 'POST', 'DELETE','PUT'],
   },
   transports: ['websocket', 'polling'],
 });
@@ -88,9 +89,7 @@ mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log('Successfully connected to MongoDB!');
-    server.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+  
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
