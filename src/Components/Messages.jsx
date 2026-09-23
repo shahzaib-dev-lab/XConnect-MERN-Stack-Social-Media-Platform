@@ -548,7 +548,7 @@ const Message = ({ currentUser, currentUsername,}) => {
 
         {/* NEW CHAT */}
 
-        <form onSubmit={handleStartNewChat} className="px-4 py-3 border-b border-gray-800 flex-shrink-0">
+        <form onSubmit={handleStartNewChat} className="px-4 py-3 border-b border-gray-800 flex-shrink-0 ">
           <div className="flex items-center gap-2">
           <input type="text" value={newUsername} onChange={(e) =>
                 setNewUsername( e.target.value)} placeholder="Enter username..." className="flex-1 min-w-0 bg-gray-900 border border-gray-700 rounded-full px-4 py-2.5 outline-none focus:border-blue-500 text-sm"/>
@@ -653,20 +653,20 @@ const Message = ({ currentUser, currentUsername,}) => {
                   </p>
                 </div>
               ) : (
-                <div className="max-w-4xl mx-auto flex flex-col gap-3 md:gap-4">
+                <div className="max-w-4xl overflow-y-auto no-scrollbar mx-auto flex flex-col gap-3 md:gap-4">
                   {messages.map(
                     (message, index) => {
             const isOwn = message.senderUsername?.toLowerCase().trim() === username;
             const messageAvatar = isOwn ? currentUserAvatar : message.senderAvatar || activeChat.avatar || null;
             const messageName = isOwn? currentUserName: activeChat.name || message.sender || activeChat.username;
               return (
-                        <div key={ message._id || `${message.createdAt}-${index}`} className={`flex items-end gap-2 ${isOwn ? 'justify-end' : 'justify-start'}`} >
+                        <div key={ message._id || `${message.createdAt}-${index}`} className={`flex w-full items-center gap-2 ${isOwn ? 'justify-end' : 'justify-start'}`} >
                           {/* OTHER USER AVATAR */}
                           {!isOwn && (
                             <Avatar src={ messageAvatar } name={ messageName } size="w-8 h-8" textSize="text-xs"/>)}
                           {/* MESSAGE + TIME */}
-                          <div className={`group max-w-[78%] md:max-w-[65%]flex flex-col ${isOwn? 'items-end' : 'items-start'}`}>
-                            <div className={`relative px-4 py-2.5 rounded-2xl break-words ${ isOwn ? 'bg-blue-500 text-white rounded-br-md' : 'bg-gray-800 text-white rounded-bl-md' }`}>
+                           <div className={`group max-w-[78%] md:max-w-[65%] flex flex-col ${ isOwn ? 'items-end' : 'items-start' }`}>
+                            <div className={`relative px-3 py-2.5 rounded-2xl break-words ${ isOwn ? 'bg-blue-500 text-white rounded-br-md' : 'bg-gray-800 text-white rounded-bl-md' }`}>
                               <p className="whitespace-pre-wrap break-words text-sm md:text-base">
                                 {message.text}
                               </p>
