@@ -97,65 +97,81 @@ const App = () => {
 
   // CREATE TWEET
   // =====================================================
+const handleAddTweet = async (newTweetData) => {
+  const tweetText =
+    typeof newTweetData === 'string'
+      ? newTweetData
+      : newTweetData?.text || '';
 
-  const handleAddTweet = async (newTweetData) => {
-    const tweetText = typeof newTweetData === 'string' ? newTweetData : newTweetData?.text || '';
+  const tweetImage =
+    typeof newTweetData === 'object'
+      ? newTweetData?.image || null
+      : null;
 
-    const tweetImage = typeof newTweetData === 'object' ? newTweetData?.image || null : null;
+  const mediaUrl =
+    typeof newTweetData === 'object'
+      ? newTweetData?.mediaUrl || null
+      : null;
 
-    if (!tweetText && !tweetImage) {
-      return;
-    }
+  const mediaType =
+    typeof newTweetData === 'object'
+      ? newTweetData?.mediaType || null
+      : null;
 
-    const payload = {
-      text: tweetText,
-      image: tweetImage,
-      authorName:
-      user?.name || 'Shahzaib',
-      username:
-        user?.username ||
-        'shahzaib-dev-lab',
+  if (!tweetText.trim() && !mediaUrl && !tweetImage) {
+    return;
+  }
 
-      // IMPORTANT:
-      // Current profile picture
-      avatar:
-      user?.avatar || null,
+  const payload = {
+    text: tweetText,
+    image: tweetImage,
+    mediaUrl: mediaUrl,
+    mediaType: mediaType,
+    authorName: user?.name || 'Shahzaib',
+    username: user?.username || 'shahzaib-dev-lab',
+    avatar: user?.avatar || null
+  };
+
+  console.log('POST PAYLOAD:', {
+    text: payload.text,
+    mediaType: payload.mediaType,
+    hasMediaUrl: !!payload.mediaUrl,
+    mediaLength: payload.mediaUrl?.length || 0
+  });
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/tweets`,
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    const newPost = {
+      ...response.data,
+      isLikedByMe: false
     };
 
-    try {
-    const response = await axios.post("https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/tweets",payload);
+    setPosts((prevPosts) => [
+      newPost,
+      ...prevPosts
+    ]);
 
-      const newPost = {
-        ...response.data,
-        isLikedByMe: false,
-      };
+  } catch (error) {
+    console.error(
+      'Error saving tweet:',
+      error
+    );
 
-      setPosts((prevPosts) => [
-        newPost,
-        ...prevPosts,
-      ]);
-    } catch (error) {
-      console.error(
-        'Error saving tweet:',
-        error
-      );
-
-      const tempPost = {
-        _id: Date.now().toString(),
-        ...payload,
-        likes: 0,
-        likedBy: [],
-        createdAt:
-        new Date().toISOString(),
-        isLikedByMe: false,
-      };
-
-      setPosts((prevPosts) => [
-        tempPost,
-        ...prevPosts,
-      ]);
-    }
-  };
+    console.error(
+      'Backend response:',
+      error.response?.data
+    );
+  }
+};
 
   // LIKE / UNLIKE TWEET
   // =====================================================
@@ -189,12 +205,12 @@ const App = () => {
     );
 
     try {
-      await axios.put(
-        `${API_URL}/${idToLike}/like`,
-        {
-          userId: currentUsername,
-        }
-      );
+    await axios.put(
+  `${API_URL}/api/tweets/${idToLike}/like`,
+  {
+    userId: currentUsername,
+  }
+);
     } catch (error) {
       console.error(
         'Error syncing like with server:',
@@ -215,9 +231,9 @@ const App = () => {
     }
 
     try {
-      await axios.delete(
-        `${API_URL}/${idToDelete}`
-      );
+     await axios.delete(
+  `${API_URL}/api/tweets/${idToDelete}`
+);
 
       setPosts((prev) =>
         prev.filter(
