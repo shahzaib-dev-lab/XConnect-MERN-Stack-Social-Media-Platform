@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Tweet = require('../models/Tweet');
 
-// GET all tweets
+// ==========================================
+// 1. GET: Fetch all tweets
 router.get('/', async (req, res) => {
   try {
     const tweets = await Tweet.find().sort({ createdAt: -1 });
@@ -17,35 +18,22 @@ router.get('/', async (req, res) => {
     });
   }
 });
-
-// CREATE tweet
+// ==========================================
+// 2. POST: Create a new tweet
 router.post('/', async (req, res) => {
   try {
     const {
       text,
       image,
-      mediaUrl,
-      mediaType,
       authorName,
       username,
       avatar
     } = req.body;
 
-    // Tweet must have text OR media
-    if (!text?.trim() && !image && !mediaUrl) {
+    // Tweet must contain text OR image
+    if (!text && !image) {
       return res.status(400).json({
-        message: 'Tweet must contain text or media'
-      });
-    }
-
-    // Validate media type
-    if (
-      mediaUrl &&
-      mediaType &&
-      !['image', 'video'].includes(mediaType)
-    ) {
-      return res.status(400).json({
-        message: 'Invalid media type'
+        message: 'Tweet must contain text or an image'
       });
     }
 
@@ -53,12 +41,10 @@ router.post('/', async (req, res) => {
       text: text || '',
       image: image || null,
 
-      // New media fields
-      mediaUrl: mediaUrl || null,
-      mediaType: mediaType || null,
-
       authorName: authorName || 'Anonymous',
       username: username || 'guest_user',
+
+      // IMPORTANT: Save user's profile picture
       avatar: avatar || null,
 
       likes: 0,
@@ -70,8 +56,7 @@ router.post('/', async (req, res) => {
     console.log('Tweet saved:', {
       id: savedTweet._id,
       username: savedTweet.username,
-      mediaType: savedTweet.mediaType || 'none',
-      hasMedia: !!savedTweet.mediaUrl
+      avatar: savedTweet.avatar ? 'Avatar exists' : 'No avatar'
     });
 
     return res.status(201).json(savedTweet);
@@ -86,7 +71,9 @@ router.post('/', async (req, res) => {
   }
 });
 
-// DELETE tweet
+// ==========================================
+// 3. DELETE: Delete a tweet
+
 router.delete('/:id', async (req, res) => {
   try {
     const tweetId = req.params.id;
@@ -113,8 +100,8 @@ router.delete('/:id', async (req, res) => {
     });
   }
 });
-
-// LIKE / UNLIKE tweet
+// ==========================================
+// 4. PUT: Toggle Like / Unlike
 router.put('/:id/like', async (req, res) => {
   try {
     const { userId } = req.body;
@@ -139,6 +126,8 @@ router.put('/:id/like', async (req, res) => {
     let updatedTweet;
 
     if (isLiked) {
+
+      // Unlike
       updatedTweet = await Tweet.findByIdAndUpdate(
         tweetId,
         {
@@ -153,7 +142,10 @@ router.put('/:id/like', async (req, res) => {
           new: true
         }
       );
+
     } else {
+
+      // Like
       updatedTweet = await Tweet.findByIdAndUpdate(
         tweetId,
         {
