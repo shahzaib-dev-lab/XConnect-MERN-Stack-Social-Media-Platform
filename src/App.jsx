@@ -30,7 +30,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentView, setCurrentView] = useState('home');
-
+  const [loading, setLoading] = useState(true);
   // LOAD USER FROM LOCAL STORAGE
   // =====================================================
   useEffect(() => {
@@ -108,25 +108,19 @@ const handleAddTweet = async (newTweetData) => {
       ? newTweetData?.image || null
       : null;
 
-  const mediaUrl =
+  const tweetVideo =
     typeof newTweetData === 'object'
-      ? newTweetData?.mediaUrl || null
+      ? newTweetData?.video || null
       : null;
 
-  const mediaType =
-    typeof newTweetData === 'object'
-      ? newTweetData?.mediaType || null
-      : null;
-
-  if (!tweetText.trim() && !mediaUrl && !tweetImage) {
+  if (!tweetText.trim() && !tweetVideo && !tweetImage) {
     return;
   }
 
   const payload = {
     text: tweetText,
     image: tweetImage,
-    mediaUrl: mediaUrl,
-    mediaType: mediaType,
+    video:tweetVideo,
     authorName: user?.name || 'Shahzaib',
     username: user?.username || 'shahzaib-dev-lab',
     avatar: user?.avatar || null
@@ -134,7 +128,7 @@ const handleAddTweet = async (newTweetData) => {
 
   console.log('POST PAYLOAD:', {
     text: payload.text,
-    mediaType: payload.mediaType,
+    video: payload.video,
     hasMediaUrl: !!payload.mediaUrl,
     mediaLength: payload.mediaUrl?.length || 0
   });
@@ -352,7 +346,7 @@ const handleAddTweet = async (newTweetData) => {
 
                 <PostBox onAddTweet={ handleAddTweet }user={user} />
                 {/* POSTS */}
-                <div className="posts"> {displayedPosts.length > 0 ? (displayedPosts.map((post) => (
+                <div className="posts">{displayedPosts.length > 0 ? (displayedPosts.map((post) => (
                         <TweetCard key={post._id || post.id } post={post}
                          currentUser={user} onDelete={
                          handleDeleteTweet } onLike={ handleLikeTweet}/>

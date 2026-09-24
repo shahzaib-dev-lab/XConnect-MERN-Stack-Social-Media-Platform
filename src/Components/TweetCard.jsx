@@ -62,7 +62,15 @@ const TweetCard = ({ post, currentUser, onDelete, onLike, hideActions = false })
               />
             </div>
           )}
-
+      {post.video && (
+        <div className="mt-3 rounded-2xl overflow-hidden border border-[#2f3336] max-h-96 bg-black">
+          <video
+            src={post.video}
+            controls
+            className="w-full h-auto max-h-96 object-contain"
+    />
+  </div>
+)}
           {/* HOME FEED ACTIONS (Comment, Retweet, Like, Share) */}
           {!hideActions && (
             <div className="flex items-center justify-between text-gray-500 text-xs sm:text-sm mt-3 pt-1 max-w-md pr-4">

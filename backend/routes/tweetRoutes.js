@@ -25,22 +25,23 @@ router.post('/', async (req, res) => {
     const {
       text,
       image,
+      video,
       authorName,
       username,
       avatar
     } = req.body;
 
     // Tweet must contain text OR image
-    if (!text && !image) {
+    if (!text && !image && !video) {
       return res.status(400).json({
-        message: 'Tweet must contain text or an image'
+        message: 'Post must contain text, image or an video'
       });
     }
 
     const newTweet = new Tweet({
       text: text || '',
       image: image || null,
-
+      video: video || null,
       authorName: authorName || 'Anonymous',
       username: username || 'guest_user',
 
