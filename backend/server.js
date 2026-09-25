@@ -3,16 +3,21 @@ dns.setDefaultResultOrder('ipv4first');
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const http = require('http');
 const { Server } = require('socket.io');
-
-const app = express();
 const path = require('path');
+
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+
+const app = express(); // 
+
 // ======================================================
 // MIDDLEWARE
+app.use(compression()); // 
+
 app.use(
   cors({
     origin: '*',
@@ -32,7 +37,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: 'https://xconnect-mern-stack-project.netlify.app',
-    methods: ['GET', 'POST', 'DELETE','PUT'],
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
   },
   transports: ['polling', 'websocket'],
 });
@@ -59,6 +64,11 @@ io.on('connection', (socket) => {
   });
 });
 
+// Self-ping to prevent Railway cold starts
+setInterval(() => {
+  http.get('https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/health');
+}, 14 * 60 * 1000);
+
 // ======================================================
 // ROUTES
 const authRoutes = require('./routes/authRoutes');
@@ -83,9 +93,11 @@ app.get('/api/health', (req, res) => {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI).then(() => {
-  console.log('Successfully connected to MongoDB!');
-  server.listen(PORT, '0.0.0.0', () => {
+mongoose
+  .connect(MONGO_URI)
+  .then(() => {
+    console.log('Successfully connected to MongoDB!');
+    server.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
     });
   })

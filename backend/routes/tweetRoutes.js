@@ -7,8 +7,8 @@ const Tweet = require('../models/Tweet');
 router.get('/', async (req, res) => {
   try {
     const tweets = await Tweet.find()
-    .sort({ createdAt: -1 });
- 
+    .sort({ createdAt: -1 })
+    .lean();
     return res.status(200).json(tweets);
   } catch (error) {
     console.error('Error fetching tweets:', error);
