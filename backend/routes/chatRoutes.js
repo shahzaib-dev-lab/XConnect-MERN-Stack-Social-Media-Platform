@@ -9,8 +9,7 @@ const getRoomId = (user1, user2) => {
     user1.toLowerCase().trim(),
     user2.toLowerCase().trim(),
   ]
-    .sort()
-    .join('_');
+    .sort().join('_');
 };
 // ======================================================
 // GET ALL CONVERSATIONS FOR USER
@@ -24,25 +23,15 @@ router.get('/conversations/:username', async (req, res) => {
       });
     }
 
-    const messages = await Message.find({
-      $or: [
+    const messages = await Message.find({$or: [
         {
           senderUsername: username,
         },
         {
           receiverUsername: username,
-        },
-      ],
+        },],
 
-      deletedFor: {
-        $ne: username,
-      },
-    })
-      .sort({
-        createdAt: -1,
-      })
-      .lean();
-
+    deletedFor: {$ne: username,},}).sort({createdAt: -1,}).lean();
     const conversationMap = new Map();
 
     for (const message of messages) {
@@ -72,31 +61,20 @@ router.get('/conversations/:username', async (req, res) => {
 
         conversationMap.set(partner, {
           username: partner,
-
           name: partnerName,
-
           avatar: partnerAvatar,
-
           lastMessage: message.text,
-
           lastMessageAt: message.createdAt,
-
           lastMessageId: message._id,
         });
       }
     }
 
-    const conversations = Array.from(
-      conversationMap.values()
-    );
-
+    const conversations = Array.from(conversationMap.values());
     return res.json(conversations);
 
   } catch (error) {
-    console.error(
-      'GET CONVERSATIONS ERROR:',
-      error
-    );
+    console.error('GET CONVERSATIONS ERROR:',error);
 
     return res.status(500).json({
       message: 'Failed to load conversations',
@@ -128,25 +106,12 @@ router.get(
           },
         ],
 
-        deletedFor: {
-          $ne: user1,
-        },
-      }).sort({
-        createdAt: 1,
-      });
-
+      deletedFor: {$ne: user1,},}).sort({createdAt: 1,});
       return res.json(messages);
-
     } catch (error) {
-      console.error(
-        'GET CONVERSATION ERROR:',
-        error
-      );
+      console.error('GET CONVERSATION ERROR:',error );
 
-      return res.status(500).json({
-        message: 'Failed to load messages',
-        error: error.message,
-      });
+      return res.status(500).json({message: 'Failed to load messages',error: error.message,});
     }
   }
 );
@@ -164,51 +129,36 @@ router.post('/', async (req, res) => {
     } = req.body;
 
     if (!senderUsername || !receiverUsername) {
-      return res.status(400).json({
-        message:
-          'Sender and receiver usernames are required',
-      });
+      return res.status(400).json({message:'Sender and receiver usernames are required',});
     }
 
     if (!text || !text.trim()) {
-      return res.status(400).json({
-        message: 'Message text cannot be empty',
-      });
+      return res.status(400).json({message: 'Message text cannot be empty',});
     }
 
-    const normalizedSender =
-      senderUsername.toLowerCase().trim();
+    const normalizedSender = senderUsername.toLowerCase().trim();
 
-    const normalizedReceiver =
-      receiverUsername.toLowerCase().trim();
+    const normalizedReceiver = receiverUsername.toLowerCase().trim();
     // ==================================================
     // CREATE MESSAGE
     const newMessage = new Message({
-      sender:
-        sender || senderUsername,
+      sender: sender || senderUsername,
 
-      senderUsername:
-        normalizedSender,
+      senderUsername: normalizedSender,
 
       // SAVE SENDER PFP
-      senderAvatar:
-        senderAvatar || null,
+      senderAvatar: senderAvatar || null,
 
-      receiverUsername:
-        normalizedReceiver,
+      receiverUsername: normalizedReceiver,
 
       // SAVE RECEIVER PFP
-      receiverAvatar:
-        receiverAvatar || null,
+      receiverAvatar: receiverAvatar || null,
 
-      text:
-        text.trim(),
+      text: text.trim(),
 
-      deletedFor: [],
-    });
+      deletedFor: [], });
 
-    const savedMessage =
-      await newMessage.save();
+    const savedMessage = await newMessage.save();
 
     console.log('MESSAGE SAVED:', {
       id: savedMessage._id,
@@ -225,34 +175,18 @@ router.post('/', async (req, res) => {
     });
     // ==================================================
     // SOCKET ROOM
-    const roomId = getRoomId(
-      normalizedSender,
-      normalizedReceiver
-    );
-
+    const roomId = getRoomId(normalizedSender, normalizedReceiver);
     const io = req.app.get('socketio');
 
     if (io) {
-      io.to(roomId).emit(
-        'receive_message',
-        savedMessage.toObject()
-      );
+      io.to(roomId).emit('receive_message', savedMessage.toObject());
     }
 
-    return res.status(201).json(
-      savedMessage
-    );
+    return res.status(201).json(savedMessage);
 
   } catch (error) {
-    console.error(
-      'SEND MESSAGE ERROR:',
-      error
-    );
-
-    return res.status(500).json({
-      message: 'Failed to send message',
-      error: error.message,
-    });
+    console.error('SEND MESSAGE ERROR:', error);
+    return res.status(500).json({ message: 'Failed to send message', error: error.message,});
   }
 });
 // ======================================================
@@ -261,17 +195,13 @@ router.delete(
   '/conversation/:user1/:user2',
   async (req, res) => {
     try {
-      const user1 =
-        req.params.user1.toLowerCase().trim();
+      const user1 = req.params.user1.toLowerCase().trim();
 
-      const user2 =
-        req.params.user2.toLowerCase().trim();
+      const user2 = req.params.user2.toLowerCase().trim();
 
       if (!user1 || !user2) {
         return res.status(400).json({
-          message:
-            'Both usernames are required',
-        });
+          message:'Both usernames are required', });
       }
 
       await Message.updateMany(
@@ -294,11 +224,7 @@ router.delete(
         }
       );
 
-      return res.json({
-        success: true,
-        message:
-          'Conversation deleted for you',
-      });
+      return res.json({success: true, message: 'Conversation deleted for you', });
 
     } catch (error) {
       console.error(
@@ -323,21 +249,12 @@ router.delete(
       const { username } = req.query;
 
       if (!username) {
-        return res.status(400).json({
-          message: 'Username is required',
-        });
+        return res.status(400).json({ message: 'Username is required', });
       }
 
-      const normalizedUsername =
-        username.toLowerCase().trim();
+      const normalizedUsername = username.toLowerCase().trim();
 
-      const updatedMessage =
-        await Message.findByIdAndUpdate(
-          req.params.id,
-          {
-            $addToSet: {
-              deletedFor: normalizedUsername,
-            },
+      const updatedMessage = await Message.findByIdAndUpdate( req.params.id, { $addToSet: { deletedFor: normalizedUsername, },
           },
           {
             new: true,
@@ -345,29 +262,14 @@ router.delete(
         );
 
       if (!updatedMessage) {
-        return res.status(404).json({
-          message: 'Message not found',
-        });
+      return res.status(404).json({ message: 'Message not found', });
       }
 
-      return res.json({
-        success: true,
-        message: updatedMessage,
-      });
-
+      return res.json({success: true, message: updatedMessage,});
     } catch (error) {
-      console.error(
-        'DELETE MESSAGE ERROR:',
-        error
-      );
-
-      return res.status(500).json({
-        message:
-          'Failed to delete message',
-        error: error.message,
-      });
+      console.error('DELETE MESSAGE ERROR:', error);
+      return res.status(500).json({message: 'Failed to delete message', error: error.message,});
     }
   }
 );
-
 module.exports = router;

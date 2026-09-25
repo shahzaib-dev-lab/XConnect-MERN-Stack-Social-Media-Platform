@@ -34,7 +34,7 @@ const Postbox = ({ onAddTweet, user }) => {
   const handleSubmit = () => {
     if (!text && !image && !video) return;
     
-    // Parent App component ko video pass karein
+
     onAddTweet({ text, image, video });
     setText('');
     setImage(null);
