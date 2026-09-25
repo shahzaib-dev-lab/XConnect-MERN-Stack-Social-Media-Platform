@@ -36,7 +36,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://xconnect-mern-stack-project.netlify.app',
+    origin: 'https://xconnect-mern-stack-social-media-platform-production.up.railway.app',
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
   },
   transports: ['polling', 'websocket'],
