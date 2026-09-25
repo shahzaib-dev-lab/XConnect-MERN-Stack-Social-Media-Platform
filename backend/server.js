@@ -3,7 +3,6 @@ dns.setDefaultResultOrder('ipv4first');
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const express = require('express');
-const compression = require('compression');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const http = require('http');
@@ -16,7 +15,6 @@ const app = express();
 
 // ======================================================
 // MIDDLEWARE
-app.use(compression());
 
 app.use(
   cors({
