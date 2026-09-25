@@ -82,9 +82,11 @@ app.get('/api/health', (req, res) => {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Successfully connected to MongoDB!');
+
     server.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
     });
