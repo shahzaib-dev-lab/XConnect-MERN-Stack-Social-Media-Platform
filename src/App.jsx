@@ -117,7 +117,6 @@ const handleAddTweet = async (newTweetData) => {
   console.log('POST PAYLOAD:', {
     text: payload.text,
     video: payload.video,
-    hasMediaUrl: !!payload.mediaUrl,
     mediaLength: payload.mediaUrl?.length || 0
   });
 

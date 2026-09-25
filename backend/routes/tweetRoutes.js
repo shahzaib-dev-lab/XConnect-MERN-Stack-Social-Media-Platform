@@ -20,32 +20,31 @@ router.get('/', async (req, res) => {
 });
 // ==========================================
 // 2. POST: Create a new tweet
+r// 2. POST: Create a new tweet
 router.post('/', async (req, res) => {
   try {
     const {
       text,
       image,
-      video,
+      video, 
       authorName,
       username,
       avatar
     } = req.body;
 
-    // Tweet must contain text OR image
+
     if (!text && !image && !video) {
       return res.status(400).json({
-        message: 'Post must contain text, image or an video'
+        message: 'Tweet must contain text, an image, or a video'
       });
     }
 
     const newTweet = new Tweet({
       text: text || '',
       image: image || null,
-      video: video || null,
+      video: video || null, 
       authorName: authorName || 'Anonymous',
       username: username || 'guest_user',
-
-      // IMPORTANT: Save user's profile picture
       avatar: avatar || null,
 
       likes: 0,
@@ -57,8 +56,7 @@ router.post('/', async (req, res) => {
     console.log('Tweet saved:', {
       id: savedTweet._id,
       username: savedTweet.username,
-      avatar: savedTweet.avatar ? 'Avatar exists' : 'No avatar'
-    });
+      hasVideo: !!savedTweet.video});
 
     return res.status(201).json(savedTweet);
 
@@ -147,8 +145,7 @@ router.put('/:id/like', async (req, res) => {
     } else {
 
       // Like
-      updatedTweet = await Tweet.findByIdAndUpdate(
-        tweetId,
+      updatedTweet = await Tweet.findByIdAndUpdate(tweetId,
         {
           $addToSet: {
             likedBy: currentUserId

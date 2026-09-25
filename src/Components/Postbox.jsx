@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { CiImageOn } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
-import { BiVideoPlus } from "react-icons/bi"; // 👈 Added Video Icon
+import { BiVideoPlus } from "react-icons/bi"; 
 
 const Postbox = ({ onAddTweet, user }) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState(null);
-  const [video, setVideo] = useState(null); // 👈 Added video state
+  const [video, setVideo] = useState(null); 
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -14,7 +14,7 @@ const Postbox = ({ onAddTweet, user }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
-        setVideo(null); // Image select karne par video clear kar dein
+        setVideo(null); 
       };
       reader.readAsDataURL(file);
     }

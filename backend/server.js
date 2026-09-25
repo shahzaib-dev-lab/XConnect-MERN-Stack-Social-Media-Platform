@@ -22,7 +22,7 @@ app.use(
 );
 
 app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // ======================================================
 // HTTP SERVER & SOCKET.IO
@@ -85,11 +85,8 @@ server.listen(PORT, '0.0.0.0', () => {
 });
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
+mongoose.connect(MONGO_URI).then(() => {
     console.log('Successfully connected to MongoDB!');
-  
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
