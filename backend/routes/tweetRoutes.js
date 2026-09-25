@@ -20,7 +20,6 @@ router.get('/', async (req, res) => {
 });
 // ==========================================
 // 2. POST: Create a new tweet
-r// 2. POST: Create a new tweet
 router.post('/', async (req, res) => {
   try {
     const {

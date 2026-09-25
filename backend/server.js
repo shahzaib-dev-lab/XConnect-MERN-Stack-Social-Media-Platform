@@ -80,14 +80,15 @@ app.get('/api/health', (req, res) => {
 // ======================================================
 // MONGODB CONNECTION & SERVER START
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
-});
 const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI).then(() => {
+mongoose.connect(MONGO_URI)
+  .then(() => {
     console.log('Successfully connected to MongoDB!');
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   })
   .catch((err) => {
-    console.error('MongoDB connection error:', err);
+    console.error('MongoDB connection error:', err.message);
   });

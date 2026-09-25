@@ -122,6 +122,7 @@ const handleAddTweet = async (newTweetData) => {
 
 try {
     const response = await axios.post(`${API_URL}/api/tweets`, payload);
+    console.log('BACKEND RESPONSE DATA:', response.data);
     const newPost = { ...response.data, isLikedByMe: false };
     setPosts((prevPosts) => [newPost, ...prevPosts]);
   } catch (error) {
