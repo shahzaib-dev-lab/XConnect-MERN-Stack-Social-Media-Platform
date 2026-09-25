@@ -594,7 +594,7 @@ const Message = ({ currentUser, currentUsername,}) => {
                       </p>
                     </div>
                     <button onClick={(e) => { e.stopPropagation(), handleDeleteConversation(conversation)}}
-                      className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-500 transition p-2 flex-shrink-0"
+                      className=" text-red-600 hover:text-red-400 p-2 flex-shrink-0"
                       title="Delete conversation"><BiTrash size={18} />
                     </button>
                   </div>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { CiImageOn } from "react-icons/ci";
-import { IoLocationOutline } from "react-icons/io5";
 import { BiVideoPlus } from "react-icons/bi"; 
 
 const Postbox = ({ onAddTweet, user }) => {
@@ -26,7 +25,7 @@ const Postbox = ({ onAddTweet, user }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setVideo(reader.result);
-        setImage(null); // Video select karne par image clear kar dein
+        setImage(null);
       };
       reader.readAsDataURL(file);
     }
@@ -92,10 +91,6 @@ const Postbox = ({ onAddTweet, user }) => {
                 <BiVideoPlus />
                 <input type="file" accept="video/*" onChange={handleVideoUpload} className="hidden" />
               </label>
-
-              <button className="hover:bg-[#1d9bf0]/10 p-1.5 rounded-full transition cursor-pointer">
-                <IoLocationOutline />
-              </button>
             </div>
 
             <button 

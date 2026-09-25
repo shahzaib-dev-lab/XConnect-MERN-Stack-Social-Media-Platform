@@ -192,20 +192,12 @@ try {
   `${API_URL}/api/tweets/${idToDelete}`
 );
 
-      setPosts((prev) =>
-        prev.filter(
-          (post) =>
-            post._id !== idToDelete &&
-            post.id !== idToDelete
-        )
-      );
-    } catch (error) {
-      console.error(
-        'Error deleting tweet:',
-        error
-      );
-    }
-  };
+ setPosts((prevPosts) => prevPosts.filter((post) => post._id !== idToDelete));
+  } catch (error) {
+    console.error('Error deleting tweet:', error);
+  }
+};
+
   // UPDATE USER / PROFILE
   // =====================================================
   const handleUserUpdate = (
