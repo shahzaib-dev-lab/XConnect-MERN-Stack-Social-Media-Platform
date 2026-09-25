@@ -30,7 +30,6 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentView, setCurrentView] = useState('home');
-  const [loading, setLoading] = useState(true);
   // LOAD USER FROM LOCAL STORAGE
   // =====================================================
   useEffect(() => {
@@ -98,20 +97,9 @@ const App = () => {
   // CREATE TWEET
   // =====================================================
 const handleAddTweet = async (newTweetData) => {
-  const tweetText =
-    typeof newTweetData === 'string'
-      ? newTweetData
-      : newTweetData?.text || '';
-
-  const tweetImage =
-    typeof newTweetData === 'object'
-      ? newTweetData?.image || null
-      : null;
-
-  const tweetVideo =
-    typeof newTweetData === 'object'
-      ? newTweetData?.video || null
-      : null;
+  const tweetText = typeof newTweetData === 'string' ? newTweetData : newTweetData?.text || '';
+  const tweetImage = typeof newTweetData === 'object' ? newTweetData?.image || null : null;
+  const tweetVideo = typeof newTweetData === 'object' ? newTweetData?.video || null : null;
 
   if (!tweetText.trim() && !tweetVideo && !tweetImage) {
     return;
@@ -133,37 +121,12 @@ const handleAddTweet = async (newTweetData) => {
     mediaLength: payload.mediaUrl?.length || 0
   });
 
-  try {
-    const response = await axios.post(
-      `${API_URL}/api/tweets`,
-      payload,
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
-    const newPost = {
-      ...response.data,
-      isLikedByMe: false
-    };
-
-    setPosts((prevPosts) => [
-      newPost,
-      ...prevPosts
-    ]);
-
+try {
+    const response = await axios.post(`${API_URL}/api/tweets`, payload);
+    const newPost = { ...response.data, isLikedByMe: false };
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
   } catch (error) {
-    console.error(
-      'Error saving tweet:',
-      error
-    );
-
-    console.error(
-      'Backend response:',
-      error.response?.data
-    );
+    console.error('Error saving tweet:', error.response?.data || error);
   }
 };
 
