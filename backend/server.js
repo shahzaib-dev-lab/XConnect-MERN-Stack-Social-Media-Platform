@@ -34,7 +34,7 @@ const io = new Server(server, {
     origin: 'https://xconnect-mern-stack-project.netlify.app',
     methods: ['GET', 'POST', 'DELETE','PUT'],
   },
-  transports: ['websocket', 'polling'],
+  transports: ['polling', 'websocket'],
 });
 
 app.set('socketio', io);
