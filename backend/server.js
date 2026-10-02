@@ -61,12 +61,6 @@ io.on('connection', (socket) => {
     console.log(`Socket disconnected: ${socket.id}`, reason);
   });
 });
-
-// Self-ping to prevent Railway cold starts
-setInterval(() => {
-  http.get('https://xconnect-mern-stack-social-media-platform-production.up.railway.app/api/health');
-}, 14 * 60 * 1000);
-
 // ======================================================
 // ROUTES
 const authRoutes = require('./routes/authRoutes');
