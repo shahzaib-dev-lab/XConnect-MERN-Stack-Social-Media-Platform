@@ -203,8 +203,6 @@ try {
   const handleUserUpdate = (
     updatedUser
   ) => {
-    console.log('Updated user:', updatedUser);
-    console.log( 'Updated avatar:', updatedUser?.avatar);
     // React state update
     setUser(updatedUser);
     // Persistent update
@@ -215,8 +213,6 @@ try {
   const handleLoginSuccess = (
     loggedInUser
   ) => { 
-    console.log('Login user:', loggedInUser);
-    console.log('Login avatar:', loggedInUser?.avatar);
     setUser(loggedInUser);
     localStorage.setItem('user', JSON.stringify(loggedInUser));};
   // LOGOUT
@@ -260,7 +256,6 @@ try {
 
           {/*SIDEBAR*/}
           <Sidebar currentView={currentView} setCurrentView={ setCurrentView } user={user} onLogout={handleLogout} />
-
           {/*MAIN CONTENT*/}
           <div className={`h-full border-x border-[#2f3336] ${
              currentView ==='messages' 
@@ -335,7 +330,7 @@ try {
               </div>
             )}
           {/*BOTTOM NAV*/}
-          <BottomNav isSearchOpen={ isSearchOpen } setIsSearchOpen={setIsSearchOpen} currentView={currentView } setCurrentView={setCurrentView} onSearchClick={handleOpenSearch } />
+          <BottomNav isSearchOpen={ isSearchOpen } setIsSearchOpen={setIsSearchOpen} currentView={currentView } setCurrentView={setCurrentView} onSearchClick={handleOpenSearch} onLogout={handleLogout}  />
         </div>
       )}
     </div>

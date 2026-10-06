@@ -1,7 +1,7 @@
 import React from 'react';
 import { BiSearch } from 'react-icons/bi';
 
-const RightSidebar = ({ searchTerm, setSearchTerm, followSuggestions = [] }) => {
+const RightSidebar = ({ searchTerm, setSearchTerm}) => {
   return (
     <div className="hidden lg:block w-[350px] pl-8 py-3 select-none">
       {/* Search Bar Input */}

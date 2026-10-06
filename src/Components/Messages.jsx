@@ -114,29 +114,21 @@ const Message = ({ currentUser, currentUsername,}) => {
   // STATES
 
 
-  const [conversations, setConversations] =
-    useState([]);
+  const [conversations, setConversations] = useState([]);
 
-  const [activeChat, setActiveChat] =
-    useState(null);
+  const [activeChat, setActiveChat] = useState(null);
 
-  const [messages, setMessages] =
-    useState([]);
+  const [messages, setMessages] = useState([]);
 
-  const [newMessage, setNewMessage] =
-    useState('');
+  const [newMessage, setNewMessage] = useState('');
 
-  const [newUsername, setNewUsername] =
-    useState('');
+  const [newUsername, setNewUsername] = useState('');
 
-  const [loadingConversations, setLoadingConversations] =
-    useState(false);
+  const [loadingConversations, setLoadingConversations] = useState(false);
 
-  const [loadingMessages, setLoadingMessages] =
-    useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(false);
 
-  const [isSending, setIsSending] =
-    useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   // LOAD CONVERSATIONS
   // ====================================================
